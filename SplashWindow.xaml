@@ -1,0 +1,44 @@
+<Window x:Class="XqueezeOS.SplashWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="XqueezeOS Splash"
+        WindowStartupLocation="CenterScreen"
+        Width="500"
+        Height="300"
+        ResizeMode="NoResize"
+        WindowStyle="None">
+
+    <Grid>
+        <!-- Background Image -->
+        <Image Source="/Assets/splashscreen.jpg" Stretch="Fill"/>
+
+        <!-- OS Name -->
+        <TextBlock Text="XqueezeOS"
+                   FontSize="28"
+                   FontWeight="Bold"
+                   Foreground="White"
+                   HorizontalAlignment="Center"
+                   VerticalAlignment="Center"/>
+
+        <!-- Boot Progress Bar -->
+        <ProgressBar x:Name="BootProgressBar"
+                     Minimum="0"
+                     Maximum="100"
+                     Height="20"
+                     Width="400"
+                     Margin="0,200,0,0"
+                     VerticalAlignment="Top"
+                     HorizontalAlignment="Center"
+                     Foreground="#FF4B8BF5"/>
+
+        <!-- Boot Status Text -->
+        <TextBlock x:Name="StatusText"
+                   Text="Initializing..."
+                   Foreground="White"
+                   FontWeight="Bold"
+                   FontSize="14"
+                   VerticalAlignment="Top"
+                   HorizontalAlignment="Center"
+                   Margin="0,240,0,0"/>
+    </Grid>
+</Window>

@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.WindowsDesktop">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <UseWPF>true</UseWPF>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.Management" Version="10.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <!-- App Images -->
+    <Resource Include="Assets\user.png" />
+    <Resource Include="Assets\about.png" />
+    <Resource Include="Assets\filemanager.png" />
+    <Resource Include="Assets\camera.png" />
+    <Resource Include="Assets\gallery.png" />
+    <Resource Include="Assets\contacts.png" />
+    <Resource Include="Assets\calculator.png" />
+    <Resource Include="Assets\splashscreen.jpg" />
+    <Resource Include="Assets\mainscreen.jpg" />
+  </ItemGroup>
+
+</Project>
