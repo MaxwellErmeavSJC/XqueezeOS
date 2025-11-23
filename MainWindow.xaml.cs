@@ -11,7 +11,6 @@ namespace XqueezeOS
         public MainWindow(string username)
         {
             InitializeComponent();
-
             _username = string.IsNullOrWhiteSpace(username) ? Environment.UserName : username;
             ProfileUsername.Text = _username;
             DeviceNameText.Text = $"Device: {Environment.MachineName}";
@@ -34,27 +33,67 @@ namespace XqueezeOS
 
         private void OpenFileManager_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("File Manager not implemented yet.", "Placeholder", MessageBoxButton.OK, MessageBoxImage.Information);
+            try
+            {
+                var fileManager = new FileManagerWindow();
+                fileManager.Owner = this;
+                fileManager.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error opening File Manager: {ex.Message}", "Error",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void OpenCamera_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Camera not implemented yet.", "Placeholder", MessageBoxButton.OK, MessageBoxImage.Information);
+            try
+            {
+                var camera = new CameraWindow();
+                camera.Owner = this;
+                camera.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error opening Camera: {ex.Message}", "Error",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void OpenGallery_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Gallery not implemented yet.", "Placeholder", MessageBoxButton.OK, MessageBoxImage.Information);
+            try
+            {
+                var gallery = new GalleryWindow();
+                gallery.Owner = this;
+                gallery.Show();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error opening Gallery: {ex.Message}", "Error",
+                    MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
         private void OpenContacts_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Contacts not implemented yet.", "Placeholder", MessageBoxButton.OK, MessageBoxImage.Information);
+            MessageBox.Show("Contacts feature coming soon!", "XqueezeOS",
+                MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void OpenCalculator_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Calculator not implemented yet.", "Placeholder", MessageBoxButton.OK, MessageBoxImage.Information);
+            try
+            {
+                // Launch Windows Calculator
+                System.Diagnostics.Process.Start("calc.exe");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Could not open Calculator: {ex.Message}", "Error",
+                    MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
         }
     }
 }
