@@ -1,0 +1,100 @@
+<Window x:Class="XqueezeOS.CalculatorWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Calculator"
+        Height="520"
+        Width="420"
+        WindowStartupLocation="CenterScreen"
+        Background="#0F1722"
+        KeyDown="Window_KeyDown">
+
+    <Border CornerRadius="12" Background="#131B24" Padding="16">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Display -->
+            <StackPanel Margin="0,0,0,12">
+                <TextBlock x:Name="ExprText"
+                           Text="0"
+                           FontSize="18"
+                           Foreground="#94A3B8"
+                           TextWrapping="Wrap" />
+                <TextBlock x:Name="ResultText"
+                           Text="0"
+                           FontSize="32"
+                           FontWeight="Bold"
+                           Margin="0,4,0,0"
+                           Foreground="White"/>
+            </StackPanel>
+
+            <!-- Buttons -->
+            <UniformGrid Grid.Row="1" Rows="5" Columns="4" Margin="0,6,0,6">
+
+                <Button Content="7" Tag="7" Click="Button_Click"/>
+                <Button Content="8" Tag="8" Click="Button_Click"/>
+                <Button Content="9" Tag="9" Click="Button_Click"/>
+                <Button Content="÷" Tag="/" Click="Button_Click"/>
+
+                <Button Content="4" Tag="4" Click="Button_Click"/>
+                <Button Content="5" Tag="5" Click="Button_Click"/>
+                <Button Content="6" Tag="6" Click="Button_Click"/>
+                <Button Content="×" Tag="*" Click="Button_Click"/>
+
+                <Button Content="1" Tag="1" Click="Button_Click"/>
+                <Button Content="2" Tag="2" Click="Button_Click"/>
+                <Button Content="3" Tag="3" Click="Button_Click"/>
+                <Button Content="−" Tag="-" Click="Button_Click"/>
+
+                <Button Content="0" Tag="0" Click="Button_Click"/>
+                <Button Content="." Tag="." Click="Button_Click"/>
+                <Button Content="=" Click="Equals_Click"/>
+                <Button Content="+" Tag="+" Click="Button_Click"/>
+
+                <Button Content="C" Click="Clear_Click"/>
+                <Button Content="⌫" Click="Backspace_Click"/>
+                <Button Content="( )" Click="Parens_Click"/>
+                <Button Content="%" Tag="%" Click="Button_Click"/>
+
+            </UniformGrid>
+
+            <!-- History + Memory -->
+            <StackPanel Grid.Row="2" Margin="0,10,0,0">
+
+                <TextBlock Text="History (Last 5)" FontWeight="Bold" Foreground="White"/>
+                <ListBox x:Name="HistoryListBox"
+                         Height="120"
+                         Margin="0,6,0,6"
+                         SelectionChanged="HistoryListBox_SelectionChanged"/>
+
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Button Content="Clear History" Click="ClearHistory_Click"/>
+                </StackPanel>
+
+                <TextBlock Text="Memory Tracking" Margin="0,12,0,4"
+                           FontWeight="Bold" Foreground="White"/>
+
+                <StackPanel>
+                    <TextBlock Text="Start:" Foreground="#94A3B8"/>
+                    <TextBlock x:Name="MemStartText" Foreground="White" Margin="0,0,0,6"/>
+
+                    <TextBlock Text="Live:" Foreground="#94A3B8"/>
+                    <TextBlock x:Name="MemLiveText" Foreground="White" Margin="0,0,0,6"/>
+
+                    <TextBlock Text="Final:" Foreground="#94A3B8"/>
+                    <TextBlock x:Name="MemFinalText" Foreground="White" Margin="0,0,0,6"/>
+
+                    <Button Content="Stop & Snapshot" Click="SnapshotBtn_Click"/>
+                    <TextBlock x:Name="MemNoteText"
+                               Margin="0,4,0,0"
+                               FontSize="12"
+                               Foreground="#94A3B8"/>
+                </StackPanel>
+            </StackPanel>
+
+        </Grid>
+    </Border>
+</Window>
