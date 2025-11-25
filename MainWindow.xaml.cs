@@ -110,7 +110,7 @@ namespace XqueezeOS
         }
 
         /// <summary>
-        /// Placeholder for Contacts app
+        /// Contacts app
         /// </summary>
         private void OpenContacts_Click(object sender, RoutedEventArgs e)
         {
@@ -118,13 +118,13 @@ namespace XqueezeOS
         }
 
         /// <summary>
-        /// Placeholder for Calculator app
+        /// alculator app
         /// </summary>
         private void OpenCalculator_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("Calculator app not implemented yet.\n\nThis is assigned to another team member.",
-                "Coming Soon", MessageBoxButton.OK, MessageBoxImage.Information);
-        }
+{
+    CalculatorWindow win = new CalculatorWindow();
+    win.Show();
+}
 
         /// <summary>
         /// Optional: Handle window closing
