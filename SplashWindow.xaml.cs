@@ -1,4 +1,5 @@
 using System;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Threading;
 
@@ -6,44 +7,113 @@ namespace XqueezeOS
 {
     public partial class SplashWindow : Window
     {
-        private readonly DispatcherTimer _timer;
+        private DispatcherTimer _timer;
         private int _progress = 0;
+        private string _username;
 
-        public SplashWindow()
+        // Default constructor
+        public SplashWindow() : this(Environment.UserName)
+        {
+        }
+
+        // Constructor with username
+        public SplashWindow(string username)
         {
             InitializeComponent();
+            _username = username;
+            StartBootSequence();
+        }
 
-            // Timer simulates BIOS -> OS boot. Update progress bar and messages.
+        private void StartBootSequence()
+        {
             _timer = new DispatcherTimer();
-            _timer.Interval = TimeSpan.FromMilliseconds(60);
+            _timer.Interval = TimeSpan.FromMilliseconds(50);
             _timer.Tick += Timer_Tick;
             _timer.Start();
         }
 
-        private void Timer_Tick(object? sender, EventArgs e)
+        private void Timer_Tick(object sender, EventArgs e)
         {
-            _progress += 1;
-            BootProgressBar.Value = _progress; // ensure ProgressBar is named BootProgressBar in XAML
+            _progress += 2;
 
-            // Staged boot messages
-            if (_progress < 20) StatusText.Text = "POST: Initializing hardware...";
-            else if (_progress < 45) StatusText.Text = "Loading kernel modules...";
-            else if (_progress < 70) StatusText.Text = "Starting system services...";
-            else if (_progress < 95) StatusText.Text = "Preparing desktop environment...";
-            else StatusText.Text = "Ready. Launching...";
+            if (_progress <= 100)
+            {
+                // Try to update progressBar if it exists
+                try
+                {
+                    var progressBarField = this.GetType().GetField("progressBar",
+                        System.Reflection.BindingFlags.NonPublic |
+                        System.Reflection.BindingFlags.Instance);
 
-            if (_progress >= 100)
+                    if (progressBarField != null)
+                    {
+                        var progressBar = progressBarField.GetValue(this) as System.Windows.Controls.ProgressBar;
+                        if (progressBar != null)
+                            progressBar.Value = _progress;
+                    }
+                }
+                catch { }
+
+                // Try to update txtProgress if it exists
+                try
+                {
+                    var txtProgressField = this.GetType().GetField("txtProgress",
+                        System.Reflection.BindingFlags.NonPublic |
+                        System.Reflection.BindingFlags.Instance);
+
+                    if (txtProgressField != null)
+                    {
+                        var txtProgress = txtProgressField.GetValue(this) as System.Windows.Controls.TextBlock;
+                        if (txtProgress != null)
+                            txtProgress.Text = $"{_progress}%";
+                    }
+                }
+                catch { }
+
+                // Try to update txtStatus if it exists
+                try
+                {
+                    var txtStatusField = this.GetType().GetField("txtStatus",
+                        System.Reflection.BindingFlags.NonPublic |
+                        System.Reflection.BindingFlags.Instance);
+
+                    if (txtStatusField != null)
+                    {
+                        var txtStatus = txtStatusField.GetValue(this) as System.Windows.Controls.TextBlock;
+                        if (txtStatus != null)
+                        {
+                            if (_progress < 20)
+                                txtStatus.Text = "Initializing system...";
+                            else if (_progress < 40)
+                                txtStatus.Text = "Loading kernel modules...";
+                            else if (_progress < 60)
+                                txtStatus.Text = "Mounting file systems...";
+                            else if (_progress < 80)
+                                txtStatus.Text = "Starting services...";
+                            else if (_progress < 95)
+                                txtStatus.Text = $"Loading user profile: {_username}...";
+                            else
+                                txtStatus.Text = "Welcome to XqueezeOS!";
+                        }
+                    }
+                }
+                catch { }
+            }
+            else
             {
                 _timer.Stop();
-
-                // Pass logged-in username to MainWindow
-                var user = Environment.UserName;
-                var main = new MainWindow(user);
-                main.Show();
-
-                // Close splash screen
-                this.Close();
+                CompleteBootSequence();
             }
+        }
+
+        private async void CompleteBootSequence()
+        {
+            await Task.Delay(500);
+
+            var mainWindow = new MainWindow(_username);
+            mainWindow.Show();
+
+            this.Close();
         }
     }
 }

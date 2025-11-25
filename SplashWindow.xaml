@@ -21,7 +21,7 @@
                    VerticalAlignment="Center"/>
 
         <!-- Boot Progress Bar -->
-        <ProgressBar x:Name="BootProgressBar"
+        <ProgressBar x:Name="progressBar"
                      Minimum="0"
                      Maximum="100"
                      Height="20"
@@ -32,13 +32,21 @@
                      Foreground="#FF4B8BF5"/>
 
         <!-- Boot Status Text -->
-        <TextBlock x:Name="StatusText"
+        <TextBlock x:Name="txtStatus"
                    Text="Initializing..."
                    Foreground="White"
                    FontWeight="Bold"
                    FontSize="14"
                    VerticalAlignment="Top"
                    HorizontalAlignment="Center"
-                   Margin="0,240,0,0"/>
+                   Margin="0,250,0,0"/>
+        <TextBlock x:Name="txtProgress"
+            Text="Initializing..."
+            Foreground="White"
+            FontWeight="Bold"
+            FontSize="16"
+            VerticalAlignment="Top"
+            HorizontalAlignment="Center"
+            Margin="0,225,0,0"/>
     </Grid>
 </Window>

@@ -191,11 +191,28 @@ namespace XqueezeOS
         {
             try
             {
-                if (_videoSource != null && _videoSource.IsRunning)
+                if (_videoSource != null)
                 {
-                    _videoSource.SignalToStop();
-                    _videoSource.WaitForStop();
-                    _videoSource.NewFrame -= VideoSource_NewFrame;
+                    try
+                    {
+                        // Unsubscribe from event first
+                        _videoSource.NewFrame -= VideoSource_NewFrame;
+
+                        // Stop if running
+                        if (_videoSource.IsRunning)
+                        {
+                            _videoSource.SignalToStop();
+                            _videoSource.WaitForStop();
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine($"Error stopping video source: {ex.Message}");
+                    }
+                    finally
+                    {
+                        _videoSource = null;
+                    }
                 }
 
                 // Update UI
@@ -213,6 +230,7 @@ namespace XqueezeOS
             catch (Exception ex)
             {
                 Debug.WriteLine($"Error stopping camera: {ex.Message}");
+                UpdateStatus($"Error stopping camera: {ex.Message}");
             }
         }
 

@@ -235,22 +235,17 @@ namespace XqueezeOS
                 _filteredImages.Add(image);
             }
 
-            // Update display
             itemsGrid.ItemsSource = _filteredImages;
             lstImages.ItemsSource = _filteredImages;
 
             txtImageCount.Text = _filteredImages.Count.ToString();
-            txtSelectedCount.Text = "0";
-
-            if (_filteredImages.Count == 0)
-            {
-                ShowEmptyState(true);
-            }
+            UpdateStatus($"Showing {_filteredImages.Count} of {_allImages.Count} images");
         }
 
         private void BtnRefresh_Click(object sender, RoutedEventArgs e)
         {
             LoadImages();
+            UpdateStatus("Gallery refreshed");
         }
 
         private void BtnViewImage_Click(object sender, RoutedEventArgs e)
@@ -259,12 +254,15 @@ namespace XqueezeOS
             {
                 try
                 {
-                    // Open image with default viewer using Windows Shell API
-                    Process.Start(new ProcessStartInfo
-                    {
-                        FileName = _selectedImage.FilePath,
-                        UseShellExecute = true
-                    });
+                    // Open image in default viewer using Windows Shell API
+                    var info = new SHELLEXECUTEINFO();
+                    info.cbSize = Marshal.SizeOf(info);
+                    info.lpVerb = "open";
+                    info.lpFile = _selectedImage.FilePath;
+                    info.nShow = SW_SHOW;
+                    info.fMask = SEE_MASK_INVOKEIDLIST;
+
+                    ShellExecuteEx(ref info);
 
                     UpdateStatus($"Opened: {_selectedImage.FileName}");
                 }
@@ -378,6 +376,10 @@ namespace XqueezeOS
 
         private void CmbViewMode_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            // Check if controls are initialized (prevents error during window creation)
+            if (scrollGridView == null || lstImages == null)
+                return;
+
             if (cmbViewMode.SelectedIndex == 0) // Grid View
             {
                 scrollGridView.Visibility = Visibility.Visible;
