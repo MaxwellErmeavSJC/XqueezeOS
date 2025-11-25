@@ -114,8 +114,7 @@ namespace XqueezeOS
         /// </summary>
         private void OpenContacts_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Contacts app not implemented yet.\n\nThis is assigned to another team member.",
-                "Coming Soon", MessageBoxButton.OK, MessageBoxImage.Information);
+            MainContentArea.Content = new ContactsPage();
         }
 
         /// <summary>
